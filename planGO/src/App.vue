@@ -1,11 +1,23 @@
-<script setup></script>
+<script setup>
+import Header from './components/header.vue'
+import List from './components/list.vue'
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <Header />
+  <List />
 </template>
 
-<style scoped></style>
+<style scoped>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+p {
+  color: #fff;
+  font-family: Helvetica;
+}
+</style>
