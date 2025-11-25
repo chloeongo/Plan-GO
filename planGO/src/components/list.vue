@@ -9,15 +9,25 @@ export default {
     addList() {
       this.lists.push({
         id: Date.now(),
-        title: 'NULL', // <-  Hier NULL van maken en dan if title = NULL input name veld show
+        title: null,
+        newTitle: '',
         important: false,
         editList: false,
         changeName: false,
       })
     },
     deleteList(id) {
-      this.lists = this.lists.filter(list => list.id !== id)
-    }
+      this.lists = this.lists.filter((list) => list.id !== id)
+    },
+    saveTitle(list) {
+      if (!list.newTitle) {
+        alert('Please enter a title')
+        return
+      }
+      list.title = list.newTitle
+      list.changeName = false
+      list.newTitle = ''
+    },
   },
 }
 </script>
@@ -25,66 +35,62 @@ export default {
 <template>
   <div class="main">
     <div v-for="list in lists" :key="list.id" class="list" :class="{ important: list.important }">
-
-    <div class="heading"> 
-      <div class="title">
-        <h4 @click="list.changeName = !list.changeName">{{ list.title }}</h4>
-        <p style="font-size: 28px; font-weight: 500;" 
-        @click="list.editList = !list.editList">
-        ...
-        </p>
-      </div>
-      
-      <!--Bewerk lijst-->
-      <div class="actionList" v-if="list.editList">
-        <div class="actionsTitle">
-            <p style="font-weight: 500; margin-left: 10px;">Edit list</p>
+      <div class="heading">
+        <div class="title">
+          <h4 @click="list.changeName = !list.changeName">{{ list.title }}</h4>
+          <p style="font-size: 28px; font-weight: 500" @click="list.editList = !list.editList">
+            ...
+          </p>
         </div>
-        <div class="listActions">
+
+        <!--Bewerk lijst-->
+        <div class="actionList" v-if="list.editList">
+          <div class="actionsTitle">
+            <p style="font-weight: 500; margin-left: 10px">Edit list</p>
+          </div>
+          <div class="listActions">
             <div @click="list.important = !list.important">
-                <p>Mark as important</p>
+              <p>Mark as important</p>
             </div>
             <div @click="deleteList(list.id)">
-                <p style="color: red;">Delete this list</p>
+              <p style="color: red">Delete this list</p>
             </div>
+          </div>
         </div>
       </div>
-    </div>   
 
       <!--Input veld naam bewerken-->
-      <div class="listForm" v-if="list.changeName">
-        <form>
-            <input type="text" :value="list.title"></input>
-            <button type="submit">Save</button>
+      <div class="listForm" v-if="list.changeName || !list.title">
+        <form @submit.prevent="saveTitle(list)">
+          <input type="text" v-model="list.newTitle" :placeholder="list.title" />
+          <button type="submit">Save</button>
         </form>
       </div>
 
-    <!--Voeg een nieuwe taak-->
+      <!--Voeg een nieuwe taak-->
       <div class="addList" id="addTask">
         <button @click="addList">+</button>
         <p>Add task</p>
       </div>
-
     </div>
 
     <div class="addList">
       <button @click="addList">+</button>
       <p>Create new list</p>
     </div>
-
   </div>
 </template>
 
 <style scoped>
-button{
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+button {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-button:hover{
-    cursor: pointer;
+button:hover {
+  cursor: pointer;
 }
 
 p,
@@ -93,62 +99,62 @@ h4 {
   color: #000;
 }
 
-input{
-    background-color: #fff;
-    border: none;
-    border-radius: 15px;
-    padding: 12px;
-    width: 92%;
+input {
+  background-color: #fff;
+  border: none;
+  border-radius: 15px;
+  padding: 12px;
+  width: 92%;
 }
 
-form button{
-    background-color: #00c0e8;
-    color: #fff;
-    padding: 12px;
-    border-radius: 15px;
-    width: 100%;
-    border: none;
-    margin-top: 10px;
-    transition: all 0.5s;
+form button {
+  background-color: #00c0e8;
+  color: #fff;
+  padding: 12px;
+  border-radius: 15px;
+  width: 100%;
+  border: none;
+  margin-top: 10px;
+  transition: all 0.5s;
 }
 
-.important{
-    background-color: #FF383C !important;
+.important {
+  background-color: #ff383c !important;
 }
 
-.heading{
-    width: 100%;
+.heading {
+  width: 100%;
 }
 
-#addTask{
-    background-color: #fff;
-    margin-top: 15px;
+#addTask {
+  background-color: #fff;
+  margin-top: 15px;
 }
 
-form button:hover{
-    background-color: #06aacb;
+form button:hover {
+  background-color: #06aacb;
 }
 
-.title{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+.title {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
-.title p{
-    margin-top: 0px;
-    transition: all 0.5s;
+.title p {
+  margin-top: 0px;
+  transition: all 0.5s;
 }
 
-.title p:hover{
-    cursor: pointer;
-    color: #ffcc00;
+.title p:hover {
+  cursor: pointer;
+  color: #ffcc00;
 }
 
-.listForm{
-    width: 100%;
-    display: grid;
-    grid-template-columns: auto;
+.listForm {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto;
 }
 
 .addList button {
@@ -169,8 +175,8 @@ form button:hover{
   background-color: #fff;
 }
 
-#addTask button{
-    background-color: #fff;
+#addTask button {
+  background-color: #fff;
 }
 
 .main {
@@ -191,8 +197,8 @@ form button:hover{
   transition: all 1s;
 }
 
-.addList:hover{
-    background-color: #fff;
+.addList:hover {
+  background-color: #fff;
 }
 
 .list {
@@ -220,31 +226,31 @@ form button:hover{
   color: #00c0e8;
 }
 
-.actionList{
-    position: absolute;
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 15px;
-    width: 200px;
-    margin-left: 250px;
-    margin-top: -20px;
-    z-index: 3;
+.actionList {
+  position: absolute;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 15px;
+  width: 200px;
+  margin-left: 250px;
+  margin-top: -20px;
+  z-index: 3;
 }
 
-.listActions{
-    display: grid;
-    grid-template-rows: auto;
-    gap: 10px;
+.listActions {
+  display: grid;
+  grid-template-rows: auto;
+  gap: 10px;
 }
 
-.listActions div:hover{
-    background-color: #f1f1f1;
-    cursor: pointer;
+.listActions div:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
 }
 
-.listActions div{
-    padding-left: 10px;
-    transition: all 0.7s;
-    border-radius: 15px;
+.listActions div {
+  padding-left: 10px;
+  transition: all 0.7s;
+  border-radius: 15px;
 }
 </style>
