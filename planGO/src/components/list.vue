@@ -9,12 +9,15 @@ export default {
     addList() {
       this.lists.push({
         id: Date.now(),
-        title: 'Hello World!',
+        title: 'NULL', // <-  Hier NULL van maken en dan if title = NULL input name veld show
         important: false,
         editList: false,
         changeName: false,
       })
     },
+    deleteList(id) {
+      this.lists = this.lists.filter(list => list.id !== id)
+    }
   },
 }
 </script>
@@ -41,7 +44,7 @@ export default {
             <div @click="list.important = !list.important">
                 <p>Mark as important</p>
             </div>
-            <div>
+            <div @click="deleteList(list.id)">
                 <p style="color: red;">Delete this list</p>
             </div>
         </div>
