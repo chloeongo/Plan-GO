@@ -10,6 +10,9 @@ export default {
       this.lists.push({
         id: Date.now(),
         title: 'Hello World!',
+        important: false,
+        editList: false,
+        changeName: false,
       })
     },
   },
@@ -18,22 +21,43 @@ export default {
 
 <template>
   <div class="main">
-    <div v-for="list in lists" :key="list.id" class="list">
+    <div v-for="list in lists" :key="list.id" class="list" :class="{ important: list.important }">
 
+    <div class="heading"> 
       <div class="title">
-        <h4>{{ list.title }}</h4>
-        <p style="font-size: 28px; font-weight: 500;">...</p>
+        <h4 @click="list.changeName = !list.changeName">{{ list.title }}</h4>
+        <p style="font-size: 28px; font-weight: 500;" 
+        @click="list.editList = !list.editList">
+        ...
+        </p>
       </div>
+      
+      <!--Bewerk lijst-->
+      <div class="actionList" v-if="list.editList">
+        <div class="actionsTitle">
+            <p style="font-weight: 500; margin-left: 10px;">Edit list</p>
+        </div>
+        <div class="listActions">
+            <div @click="list.important = !list.important">
+                <p>Mark as important</p>
+            </div>
+            <div>
+                <p style="color: red;">Delete this list</p>
+            </div>
+        </div>
+      </div>
+    </div>   
 
       <!--Input veld naam bewerken-->
-      <div class="listForm">
+      <div class="listForm" v-if="list.changeName">
         <form>
             <input type="text" :value="list.title"></input>
             <button type="submit">Save</button>
         </form>
       </div>
 
-      <div class="addList">
+    <!--Voeg een nieuwe taak-->
+      <div class="addList" id="addTask">
         <button @click="addList">+</button>
         <p>Add task</p>
       </div>
@@ -44,6 +68,7 @@ export default {
       <button @click="addList">+</button>
       <p>Create new list</p>
     </div>
+
   </div>
 </template>
 
@@ -81,7 +106,20 @@ form button{
     width: 100%;
     border: none;
     margin-top: 10px;
-    transition: all 1s;
+    transition: all 0.5s;
+}
+
+.important{
+    background-color: #FF383C !important;
+}
+
+.heading{
+    width: 100%;
+}
+
+#addTask{
+    background-color: #fff;
+    margin-top: 15px;
 }
 
 form button:hover{
@@ -96,6 +134,12 @@ form button:hover{
 
 .title p{
     margin-top: 0px;
+    transition: all 0.5s;
+}
+
+.title p:hover{
+    cursor: pointer;
+    color: #ffcc00;
 }
 
 .listForm{
@@ -111,7 +155,7 @@ form button:hover{
   font-size: 24px;
   padding: 20px;
   border-radius: 20px;
-  transition: all 1s;
+  transition: all 0.5s;
   height: 100%;
   min-width: 65px;
   max-height: 65px;
@@ -120,6 +164,10 @@ form button:hover{
 .addList button:hover {
   color: #ffcc00;
   background-color: #fff;
+}
+
+#addTask button{
+    background-color: #fff;
 }
 
 .main {
@@ -167,5 +215,33 @@ form button:hover{
 
 .addList p {
   color: #00c0e8;
+}
+
+.actionList{
+    position: absolute;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 15px;
+    width: 200px;
+    margin-left: 250px;
+    margin-top: -20px;
+    z-index: 3;
+}
+
+.listActions{
+    display: grid;
+    grid-template-rows: auto;
+    gap: 10px;
+}
+
+.listActions div:hover{
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+.listActions div{
+    padding-left: 10px;
+    transition: all 0.7s;
+    border-radius: 15px;
 }
 </style>
