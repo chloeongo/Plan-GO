@@ -1,5 +1,10 @@
 <script>
+import Task from './task.vue'
+
 export default {
+  components: {
+    Task,
+  },
   data() {
     return {
       lists: [],
@@ -10,7 +15,7 @@ export default {
       this.lists.push({
         id: Date.now(),
         title: null,
-        newTitle: '',
+        newTitle: '', // Placeholder, zodat title niet meteen wordt geupdate
         important: false,
         editList: false,
         changeName: false,
@@ -21,7 +26,7 @@ export default {
     },
     saveTitle(list) {
       if (!list.newTitle) {
-        alert('Please enter a title')
+        alert('List name cannot be empty')
         return
       }
       list.title = list.newTitle
@@ -36,6 +41,7 @@ export default {
   <div class="main">
     <div v-for="list in lists" :key="list.id" class="list" :class="{ important: list.important }">
       <div class="heading">
+        <!--Heading-->
         <div class="title">
           <h4 @click="list.changeName = !list.changeName">{{ list.title }}</h4>
           <p style="font-size: 28px; font-weight: 500" @click="list.editList = !list.editList">
@@ -68,10 +74,7 @@ export default {
       </div>
 
       <!--Voeg een nieuwe taak-->
-      <div class="addList" id="addTask">
-        <button @click="addList">+</button>
-        <p>Add task</p>
-      </div>
+      <Task v-if="list.title" />
     </div>
 
     <div class="addList">
@@ -105,6 +108,7 @@ input {
   border-radius: 15px;
   padding: 12px;
   width: 92%;
+  border: 1px solid #eaeaea;
 }
 
 form button {
@@ -235,6 +239,7 @@ form button:hover {
   margin-left: 250px;
   margin-top: -20px;
   z-index: 3;
+  border: 1px solid #eaeaea;
 }
 
 .listActions {
