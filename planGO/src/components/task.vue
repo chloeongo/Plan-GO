@@ -7,7 +7,6 @@ export default {
       desc: null,
       newName: '',
       newDesc: '',
-      editTask: false,
       addTask: false,
     }
   },
@@ -19,6 +18,7 @@ export default {
       }
       this.tasks.push({
         id: Date.now(),
+        editTask: false,
         name: this.newName,
         desc: this.newDesc || '',
       })
@@ -28,7 +28,7 @@ export default {
     },
     deleteTask(id) {
       this.tasks = this.tasks.filter((task) => task.id !== id)
-      this.editTask = false
+      this.task.editTask = false
     },
   },
 }
@@ -40,12 +40,12 @@ export default {
       <!--Taak display-->
       <div class="taskHeading">
         <p style="font-weight: 500; font-size: 15px">{{ task.name }}</p>
-        <p class="closeTask" @click="editTask = !editTask">...</p>
+        <p class="closeTask" @click="task.editTask = !task.editTask">...</p>
       </div>
       <p style="font-size: 12px; margin-top: -10px">{{ task.desc }}</p>
 
       <!--Bewerk lijst-->
-      <div class="actionList" v-if="editTask">
+      <div class="actionList" v-if="task.editTask">
         <div class="actionsTitle">
           <p style="font-weight: 500; margin-left: 10px">Task actions</p>
         </div>
