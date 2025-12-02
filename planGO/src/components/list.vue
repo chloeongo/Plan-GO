@@ -52,7 +52,7 @@ export default {
         <!--Bewerk lijst-->
         <div class="actionList" v-if="list.editList">
           <div class="actionsTitle">
-            <p style="font-weight: 500; margin-left: 10px">Edit list</p>
+            <p style="font-weight: 500; margin-left: 10px">List actions</p>
           </div>
           <div class="listActions">
             <div @click="list.important = !list.important">
@@ -245,7 +245,7 @@ form button:hover {
 .listActions {
   display: grid;
   grid-template-rows: auto;
-  gap: 10px;
+  gap: 5px;
 }
 
 .listActions div:hover {
@@ -257,5 +257,6 @@ form button:hover {
   padding-left: 10px;
   transition: all 0.7s;
   border-radius: 15px;
+  border: 1px solid #eaeaea;
 }
 </style>

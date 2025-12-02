@@ -2,32 +2,72 @@
 export default {
   data() {
     return {
+      tasks: [],
+      name: null,
+      desc: null,
+      newName: '',
+      newDesc: '',
+      editTask: false,
       addTask: false,
-      name: 'Task name',
-      desc: 'desc',
     }
   },
-  methods: {},
+  methods: {
+    saveTask() {
+      if (!this.newName.trim()) {
+        alert('Task name is required')
+        return
+      }
+      this.tasks.push({
+        id: Date.now(),
+        name: this.newName,
+        desc: this.newDesc || '',
+      })
+      this.newName = ''
+      this.newDesc = ''
+      this.addTask = false
+    },
+    deleteTask(id) {
+      this.tasks = this.tasks.filter((task) => task.id !== id)
+      this.editTask = false
+    },
+  },
 }
 </script>
 
 <template>
   <div>
-    <!--Taak input velden-->
-    <div class="taskInput" v-if="addTask">
-      <form>
-        <input type="text" placeholder="Type a task name..." />
-        <button type="submit">Save</button>
-      </form>
+    <div class="task" v-for="task in tasks" :key="task.id">
+      <!--Taak display-->
+      <div class="taskHeading">
+        <p style="font-weight: 500; font-size: 15px">{{ task.name }}</p>
+        <p class="closeTask" @click="editTask = !editTask">...</p>
+      </div>
+      <p style="font-size: 12px; margin-top: -10px">{{ task.desc }}</p>
+
+      <!--Bewerk lijst-->
+      <div class="actionList" v-if="editTask">
+        <div class="actionsTitle">
+          <p style="font-weight: 500; margin-left: 10px">Task actions</p>
+        </div>
+        <div class="listActions">
+          <div>
+            <p>Edit task</p>
+          </div>
+          <div @click="deleteTask(task.id)">
+            <p style="color: red">Delete this task</p>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!--Taak display-->
-    <div class="task">
-      <div class="taskHeading">
-        <p style="font-weight: 500; font-size: 15px">{{ name }}</p>
-        <p class="closeTask">...</p>
-      </div>
-      <p style="font-size: 12px; margin-top: -10px">{{ desc }}</p>
+    <!--Taak input velden-->
+    <div class="taskInput" v-if="addTask">
+      <form @submit.prevent="saveTask">
+        <input type="text" v-model="newName" placeholder="Type a task name..." required />
+        <input type="text" v-model="newDesc" placeholder="Type a description..." />
+
+        <button type="submit">Save</button>
+      </form>
     </div>
 
     <!--Voeg een nieuwe taak-->
@@ -39,6 +79,36 @@ export default {
 </template>
 
 <style>
+.listActions div:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.listActions {
+  display: grid;
+  grid-template-rows: auto;
+  gap: 5px;
+}
+
+.listActions div {
+  padding-left: 10px;
+  transition: all 0.7s;
+  border-radius: 15px;
+  border: 1px solid #eaeaea;
+}
+
+.actionList {
+  position: absolute;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 15px;
+  width: 200px;
+  margin-left: 250px;
+  margin-top: -20px;
+  z-index: 3;
+  border: 1px solid #eaeaea;
+}
+
 .closeTask {
   font-size: 20px;
   font-weight: 500;
