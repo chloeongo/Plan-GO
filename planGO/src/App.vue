@@ -8,16 +8,4 @@ import List from './components/list.vue'
   <List />
 </template>
 
-<style scoped>
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-a,
-p {
-  color: #fff;
-  font-family: Helvetica;
-}
-</style>
+<style scoped></style>
