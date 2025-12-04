@@ -58,6 +58,9 @@ export default {
             <div @click="list.important = !list.important">
               <p>Mark as important</p>
             </div>
+            <div @click="list.changeName = !list.changeName">
+              <p>Edit list name</p>
+            </div>
             <div @click="deleteList(list.id)">
               <p style="color: red">Delete this list</p>
             </div>
@@ -66,7 +69,7 @@ export default {
       </div>
 
       <!--Input veld naam bewerken-->
-      <div class="listForm" v-if="list.changeName || !list.title">
+      <div class="listForm" id="editForm" v-if="list.changeName || !list.title">
         <form @submit.prevent="saveTitle(list)">
           <input type="text" v-model="list.newTitle" :placeholder="list.title" />
           <button type="submit" class="blueBtn">Save</button>
@@ -100,6 +103,10 @@ p,
 button,
 h4 {
   color: #000;
+}
+
+#editForm {
+  margin-bottom: 15px;
 }
 
 input {

@@ -10,7 +10,7 @@ export default {
   },
   methods: {
     saveTask(task = null) {
-      // Als task bestaat → we bewerken de task
+      // Als taak bestaat alleen vervangen
       if (task) {
         task.name = task.nName
         task.desc = task.nDesc
@@ -96,6 +96,12 @@ export default {
 </template>
 
 <style scoped>
+p {
+  max-width: 240px !important;
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .listActions div:hover {
   background-color: #f1f1f1;
   cursor: pointer;
