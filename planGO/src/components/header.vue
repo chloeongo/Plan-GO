@@ -7,7 +7,7 @@ export default {
   },
   data() {
     return {
-      showBackgroundMenu: false,
+      showMenu: false,
     }
   },
 }
@@ -18,14 +18,14 @@ export default {
     <div><img src="../assets/logo.png" /></div>
     <div></div>
     <div class="btns">
-      <img src="../assets/image.png" @click="showBackgroundMenu = !showBackgroundMenu" />
+      <img src="../assets/image.png" @click="showMenu = !showMenu" />
       <a href="https://github.com/chloeongo" target="_blank">
         <img src="../assets/github-logo.png" />
       </a>
     </div>
   </header>
 
-  <Background v-if="showBackgroundMenu" />
+  <Background v-if="showMenu" />
 </template>
 
 <style scoped>
