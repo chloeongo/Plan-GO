@@ -3,24 +3,28 @@ export default {
   data() {
     return {
       tasks: [],
-      name: null,
-      desc: null,
       newName: '',
       newDesc: '',
       addTask: false,
     }
   },
   methods: {
-    saveTask() {
-      if (!this.newName.trim()) {
-        alert('Task name is required')
+    saveTask(task = null) {
+      // Als task bestaat → we bewerken de task
+      if (task) {
+        task.name = task.nName
+        task.desc = task.nDesc
+        task.editTask = false
         return
       }
       this.tasks.push({
         id: Date.now(),
-        editTask: false,
         name: this.newName,
         desc: this.newDesc || '',
+        editTask: false,
+        actionTask: false,
+        nName: '',
+        nDesc: '',
       })
       this.newName = ''
       this.newDesc = ''
@@ -28,29 +32,29 @@ export default {
     },
     deleteTask(id) {
       this.tasks = this.tasks.filter((task) => task.id !== id)
-      this.task.editTask = false
+      this.task.actionTask = false
     },
   },
 }
 </script>
 
 <template>
-  <div>
+  <div class="taskContainer">
     <div class="task" v-for="task in tasks" :key="task.id">
       <!--Taak display-->
       <div class="taskHeading">
         <p style="font-weight: 500; font-size: 15px">{{ task.name }}</p>
-        <p class="closeTask" @click="task.editTask = !task.editTask">...</p>
+        <p class="closeTask" @click="task.actionTask = !task.actionTask">...</p>
       </div>
       <p style="font-size: 12px; margin-top: -10px">{{ task.desc }}</p>
 
       <!--Bewerk lijst-->
-      <div class="actionList" v-if="task.editTask">
+      <div class="actionList" v-if="task.actionTask">
         <div class="actionsTitle">
           <p style="font-weight: 500; margin-left: 10px">Task actions</p>
         </div>
         <div class="listActions">
-          <div>
+          <div @click="task.editTask = !task.editTask">
             <p>Edit task</p>
           </div>
           <div @click="deleteTask(task.id)">
@@ -58,15 +62,28 @@ export default {
           </div>
         </div>
       </div>
+
+      <!--Taak BEWERKEN input velden-->
+      <div class="taskInput" v-if="task.editTask">
+        <form @submit.prevent="saveTask(task)">
+          <input type="text" v-model="task.nName" :placeholder="task.name" required />
+          <input type="text" v-model="task.nDesc" :placeholder="task.desc" />
+
+          <button type="submit" class="blueBtn">Save</button>
+          <button id="closeBtn" class="blueBtn" @click="task.editTask = !task.editTask">
+            Close
+          </button>
+        </form>
+      </div>
     </div>
 
     <!--Taak input velden-->
     <div class="taskInput" v-if="addTask">
-      <form @submit.prevent="saveTask">
+      <form @submit.prevent="saveTask()">
         <input type="text" v-model="newName" placeholder="Type a task name..." required />
         <input type="text" v-model="newDesc" placeholder="Type a description..." />
 
-        <button type="submit">Save</button>
+        <button type="submit" class="blueBtn">Save</button>
       </form>
     </div>
 
@@ -78,7 +95,7 @@ export default {
   </div>
 </template>
 
-<style>
+<style scoped>
 .listActions div:hover {
   background-color: #f1f1f1;
   cursor: pointer;
@@ -98,8 +115,8 @@ export default {
 }
 
 .actionList {
-  position: absolute;
   background-color: #fff;
+  position: absolute;
   padding: 10px;
   border-radius: 15px;
   width: 200px;
@@ -107,6 +124,15 @@ export default {
   margin-top: -20px;
   z-index: 3;
   border: 1px solid #eaeaea;
+}
+
+#closeBtn {
+  background-color: #ff383c !important;
+  transition: all 0.7s;
+}
+
+#closeBtn:hover {
+  background-color: #d31a1d !important;
 }
 
 .closeTask {
@@ -137,11 +163,11 @@ input {
   border: 1px solid #eaeaea;
 }
 
-form button:hover {
+.blueBtn:hover {
   background-color: #06aacb;
 }
 
-form button {
+.blueBtn {
   background-color: #00c0e8;
   color: #fff;
   padding: 12px;
@@ -150,6 +176,12 @@ form button {
   border: none;
   margin-top: 10px;
   transition: all 0.5s;
+}
+
+.taskContainer {
+  display: grid;
+  grid-template-columns: auto;
+  gap: 7px;
 }
 
 .task {

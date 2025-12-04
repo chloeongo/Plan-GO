@@ -69,7 +69,7 @@ export default {
       <div class="listForm" v-if="list.changeName || !list.title">
         <form @submit.prevent="saveTitle(list)">
           <input type="text" v-model="list.newTitle" :placeholder="list.title" />
-          <button type="submit">Save</button>
+          <button type="submit" class="blueBtn">Save</button>
         </form>
       </div>
 
@@ -111,7 +111,7 @@ input {
   border: 1px solid #eaeaea;
 }
 
-form button {
+.blueBtn {
   background-color: #00c0e8;
   color: #fff;
   padding: 12px;
@@ -135,7 +135,7 @@ form button {
   margin-top: 15px;
 }
 
-form button:hover {
+.blueBtn:hover {
   background-color: #06aacb;
 }
 
