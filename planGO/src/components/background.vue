@@ -1,10 +1,20 @@
-<script>
-export default {
-  data() {
-    return {
-      showMenu: true,
-    }
-  },
+<script setup>
+import { ref } from 'vue'
+import { defineEmits } from 'vue'
+
+import bg1 from '../assets/background.png'
+import bg2 from '../assets/background-2.jpg'
+import bg3 from '../assets/background-3.jpg'
+import bg4 from '../assets/background-4.jpg'
+import bg5 from '../assets/background-5.jpg'
+import bg6 from '../assets/background-6.jpg'
+
+const showMenu = ref(true)
+
+const emit = defineEmits(['change-bg'])
+
+const selectBg = (img) => {
+  emit('change-bg', img)
 }
 </script>
 
@@ -16,12 +26,24 @@ export default {
         <p @click="showMenu = !showMenu">✖</p>
       </div>
       <div class="gallery">
-        <div><img src="../assets/background.png" /></div>
-        <div><img src="../assets/background-2.jpg" /></div>
-        <div><img src="../assets/background-3.jpg" /></div>
-        <div><img src="../assets/background-4.jpg" /></div>
-        <div><img src="../assets/background-5.jpg" /></div>
-        <div><img src="../assets/background-6.jpg" /></div>
+        <div>
+          <img @click="selectBg(bg1)" :src="bg1" />
+        </div>
+        <div>
+          <img @click="selectBg(bg2)" :src="bg2" />
+        </div>
+        <div>
+          <img @click="selectBg(bg3)" :src="bg3" />
+        </div>
+        <div>
+          <img @click="selectBg(bg4)" :src="bg4" />
+        </div>
+        <div>
+          <img @click="selectBg(bg5)" :src="bg5" />
+        </div>
+        <div>
+          <img @click="selectBg(bg6)" :src="bg6" />
+        </div>
       </div>
     </div>
   </div>
