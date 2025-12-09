@@ -15,26 +15,37 @@ export default {
 
 <template>
   <header>
-    <div><img src="../assets/logo.png" /></div>
-    <div></div>
-    <div class="btns">
-      <img src="../assets/image.png" @click="showMenu = !showMenu" />
-      <a href="https://github.com/chloeongo" target="_blank">
-        <img src="../assets/github-logo.png" />
-      </a>
+    <div class="headerContent">
+      <div><img src="../assets/logo.png" /></div>
+      <div></div>
+      <div class="btns">
+        <img src="../assets/image.png" @click="showMenu = !showMenu" />
+        <a href="https://github.com/chloeongo" target="_blank">
+          <img src="../assets/github-logo.png" />
+        </a>
+      </div>
     </div>
   </header>
 
-  <Background v-if="showMenu" />
+  <Background v-if="showMenu" @change-bg="updateBackground" />
 </template>
 
 <style scoped>
 header {
   width: 97%;
+  padding-bottom: 80px;
+}
+
+.headerContent {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px;
+}
+
+header .headerContent {
+  position: fixed;
+  width: 97%;
 }
 
 img:hover {
