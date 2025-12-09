@@ -77,7 +77,7 @@ export default {
       </div>
     </div>
 
-    <!--Taak input velden-->
+    <!--Taak AANMAKEN input velden-->
     <div class="taskInput" v-if="addTask">
       <form @submit.prevent="saveTask()">
         <input type="text" v-model="newName" placeholder="Type a task name..." required />
@@ -88,8 +88,8 @@ export default {
     </div>
 
     <!--Voeg een nieuwe taak-->
-    <div class="addList" id="addTask">
-      <button @click="addTask = !addTask">+</button>
+    <div class="addList" id="addTask" @click="addTask = !addTask">
+      <button>+</button>
       <p style="margin-left: 20px">Add task</p>
     </div>
   </div>
@@ -171,6 +171,7 @@ input {
 
 .blueBtn:hover {
   background-color: #06aacb;
+  cursor: pointer;
 }
 
 .blueBtn {
@@ -236,7 +237,7 @@ input {
   align-items: center;
 }
 
-.addList button:hover {
+.addList:hover button {
   color: #ffcc00;
   background-color: #fff;
 }
@@ -244,6 +245,10 @@ input {
 #addTask {
   background-color: #fff;
   margin-top: 15px;
+}
+
+#addTask:hover {
+  cursor: pointer;
 }
 
 #addTask button {

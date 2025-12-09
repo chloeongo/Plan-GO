@@ -76,12 +76,12 @@ export default {
         </form>
       </div>
 
-      <!--Voeg een nieuwe taak-->
+      <!--Voeg een nieuwe taak toe-->
       <Task v-if="list.title" />
     </div>
 
-    <div class="addList">
-      <button @click="addList">+</button>
+    <div @click="addList" class="addList">
+      <button>+</button>
       <p>Create new list</p>
     </div>
   </div>
@@ -181,9 +181,8 @@ input {
   max-height: 65px;
 }
 
-.addList button:hover {
+.addList:hover button {
   color: #ffcc00;
-  background-color: #fff;
 }
 
 #addTask button {
@@ -205,11 +204,13 @@ input {
   align-items: center;
   border-radius: 20px;
   width: 300px;
-  transition: all 1s;
+  transition: all 0.7s;
+  gap: 20px;
+  padding-right: 20px;
 }
 
 .addList:hover {
-  background-color: #fff;
+  cursor: pointer;
 }
 
 .list {
@@ -226,10 +227,6 @@ input {
 .list {
   margin-right: 60px;
   padding-left: 20px;
-  padding-right: 20px;
-}
-.addList {
-  gap: 20px;
   padding-right: 20px;
 }
 
