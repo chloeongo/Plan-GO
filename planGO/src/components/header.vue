@@ -1,15 +1,14 @@
-<script>
+<script setup>
+import { ref } from 'vue'
+import { defineEmits } from 'vue'
 import Background from './background.vue'
 
-export default {
-  components: {
-    Background,
-  },
-  data() {
-    return {
-      showMenu: false,
-    }
-  },
+const showMenu = ref(false)
+
+const emit = defineEmits(['change-bg'])
+
+const updateBackground = (newBg) => {
+  emit('change-bg', newBg)
 }
 </script>
 
