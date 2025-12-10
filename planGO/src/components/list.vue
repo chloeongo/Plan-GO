@@ -196,6 +196,9 @@ input {
   align-items: start;
   gap: 50px;
   padding: 20px;
+  overflow-x: scroll;
+  scrollbar-color: #fff #ffffff00;
+  height: 85vh;
 }
 
 .addList {
